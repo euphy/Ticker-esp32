@@ -1,11 +1,11 @@
 /* 
   ESP32Ticker.cpp - esp32 library that calls functions periodically
 
-  2018.09.24, Sandy Noble.
+  Copyright (c) 2018 Sandy Noble. All rights reserved.
+  2018.09.24
   Switched to use microseconds as the basic timebase, rather than 
-  millisecond.
-
-  Microsecond is the native resolution of the timer that the library uses.
+  millisecond. Microsecond is the native resolution of the timer that 
+  the library uses.
   
 
 	Copyright (c) 2017 Bert Melis. All rights reserved.

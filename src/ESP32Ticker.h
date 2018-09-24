@@ -1,6 +1,7 @@
 /* 
   Ticker.h - esp32 library that calls functions periodically
 
+  Copyright (c) 2018 Sandy Noble. All rights reserved.
   Copyright (c) 2017 Bert Melis. all rights reserved
   Copyright (c) 2014 Ivan Grokhotkov. All rights reserved.
   This file is part of the esp32 core for Arduino environment.
@@ -79,12 +80,12 @@ public:
 
 	void once(float seconds, callback_t callback)
 	{
-		_attach_ms(seconds * 1000, false, reinterpret_cast<callback_with_arg_t>(callback), 0);
+    	_attach_micros(seconds * 1000000, false, reinterpret_cast<callback_with_arg_t>(callback), 0);
 	}
 
 	void once_ms(uint32_t milliseconds, callback_t callback)
 	{
-		_attach_ms(milliseconds, false, reinterpret_cast<callback_with_arg_t>(callback), 0);	
+    	_attach_micros(milliseconds * 1000, false, reinterpret_cast<callback_with_arg_t>(callback), 0);	
 	}
 
 	void once_micros(uint32_t microseconds, callback_t callback)
@@ -97,7 +98,7 @@ public:
 	{
 		static_assert(sizeof(TArg) <= sizeof(uint32_t), "attach() callback argument size must be <= 4 bytes");
 		uint32_t arg32 = (uint32_t)(arg);
-		_attach_ms(seconds * 1000, false, reinterpret_cast<callback_with_arg_t>(callback), arg32);
+    	_attach_micros(seconds * 1000000, false, reinterpret_cast<callback_with_arg_t>(callback), arg32);
 	}
 
 	template<typename TArg>
@@ -105,7 +106,7 @@ public:
 	{
 		static_assert(sizeof(TArg) <= sizeof(uint32_t), "attach_ms() callback argument size must be <= 4 bytes");
 		uint32_t arg32 = (uint32_t)(arg);
-		_attach_ms(milliseconds, false, reinterpret_cast<callback_with_arg_t>(callback), arg32);
+    	_attach_micros(milliseconds * 1000, false, reinterpret_cast<callback_with_arg_t>(callback), arg32);
 	}
 
 	template<typename TArg>
@@ -120,7 +121,7 @@ public:
 	bool active();
 
 protected:	
-	void _attach_ms(uint32_t milliseconds, bool repeat, callback_with_arg_t callback, uint32_t arg);
+  void _attach_micros(uint32_t microseconds, bool repeat, callback_with_arg_t callback, uint32_t arg);
 
 
 protected:

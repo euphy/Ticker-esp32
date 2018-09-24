@@ -1,6 +1,13 @@
 /* 
   ESP32Ticker.cpp - esp32 library that calls functions periodically
 
+  2018.09.24, Sandy Noble.
+  Switched to use microseconds as the basic timebase, rather than 
+  millisecond.
+
+  Microsecond is the native resolution of the timer that the library uses.
+  
+
 	Copyright (c) 2017 Bert Melis. All rights reserved.
 	
 	Based on the original work of:
@@ -31,7 +38,7 @@ Ticker::~Ticker() {
   detach();
 }
 
-void Ticker::_attach_ms(uint32_t milliseconds, bool repeat, callback_with_arg_t callback, uint32_t arg) {
+void Ticker::_attach_micros(uint32_t microseconds, bool repeat, callback_with_arg_t callback, uint32_t arg) {
   esp_timer_create_args_t _timerConfig;
   _timerConfig.arg = reinterpret_cast<void*>(arg);
   _timerConfig.callback = callback;
@@ -43,9 +50,9 @@ void Ticker::_attach_ms(uint32_t milliseconds, bool repeat, callback_with_arg_t 
   }
   esp_timer_create(&_timerConfig, &_timer);
   if (repeat) {
-    esp_timer_start_periodic(_timer, milliseconds * 1000);
+    esp_timer_start_periodic(_timer, microseconds);
   } else {
-    esp_timer_start_once(_timer, milliseconds * 1000);
+    esp_timer_start_once(_timer, microseconds);
   }
 }
 
